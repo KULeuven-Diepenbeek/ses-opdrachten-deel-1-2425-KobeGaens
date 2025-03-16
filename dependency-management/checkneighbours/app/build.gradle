@@ -19,9 +19,11 @@ repositories {
 dependencies {
     // Use JUnit test framework.
     testImplementation libs.junit
-
+    testImplementation("org.assertj:assertj-core:3.11.1")
     // This dependency is used by the application.
     implementation libs.guava
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -42,3 +44,21 @@ jar {
         attributes 'Main-Class': 'be.ses.CheckNeighboursInGrid'
     }
 }
+/*
+task distTar(type: Tar) {
+    // Define your tar file structure
+    from('build/libs')  // Example directory
+    into('app') // Example destination directory
+    
+    // Handle duplicate files
+    eachFile { file ->
+        if (file.name == 'CheckNeighboursInGrid.jar') {
+            // Specify how to handle duplicate files here
+            file.duplicatesStrategy = DuplicatesStrategy.EXCLUDE // or .INCLUDE, .FAIL depending on your preference
+        }
+    }
+
+    // Or specify duplicatesStrategy globally
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+*/

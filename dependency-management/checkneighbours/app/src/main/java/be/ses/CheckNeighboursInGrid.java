@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.naming.LimitExceededException;
+
 public class CheckNeighboursInGrid {
     public static Iterable<Integer> getSameNeighboursIds(Iterable<Integer> grid, int width, int height, int indexToCheck) {
         // Hier moet je de logica implementeren om buren te vinden
@@ -14,32 +16,42 @@ public class CheckNeighboursInGrid {
         for (Integer num : grid) {
             gridList.add(num);
         }
+        if (indexToCheck < gridList.size()){
+            // Waarde op de gegeven index
+            int targetValue = gridList.get(indexToCheck);
 
-        // Waarde op de gegeven index
-        int targetValue = gridList.get(indexToCheck);
+            // Rijen en kolommen berekenen
+            int row = indexToCheck / width;
+            int col = indexToCheck % width;
 
-        // Rijen en kolommen berekenen
-        int row = indexToCheck / width;
-        int col = indexToCheck % width;
+            // Check de 8 buren (boven, onder, links, rechts)
+            int[][] directions = {
+                {-1, 0},  // boven
+                {1, 0},   // onder
+                {0, -1},  // links
+                {0, 1},    // rechts
+                {-1, -1},  // linksboven
+                {-1, 1},   // rechtssboven
+                {1, -1},  // linksonder
+                {1, 1}    // rechtsonder
+            };
 
-        // Check de 4 buren (boven, onder, links, rechts)
-        int[][] directions = {
-            {-1, 0},  // boven
-            {1, 0},   // onder
-            {0, -1},  // links
-            {0, 1}    // rechts
-        };
+            for (int[] dir : directions) {
+                int newRow = row + dir[0];
+                int newCol = col + dir[1];
 
-        for (int[] dir : directions) {
-            int newRow = row + dir[0];
-            int newCol = col + dir[1];
-
-            if (newRow >= 0 && newRow < height && newCol >= 0 && newCol < width) {
-                int newIndex = newRow * width + newCol;
-                if (gridList.get(newIndex) == targetValue) {
-                    result.add(newIndex);
+                if (newRow >= 0 && newRow < height && newCol >= 0 && newCol < width) {
+                    int newIndex = newRow * width + newCol;
+                    if (gridList.get(newIndex) == targetValue) {
+                        result.add(newIndex);
+                    }
                 }
             }
+
+            
+        }
+        else if (indexToCheck >= gridList.size()) {
+            throw new IndexOutOfBoundsException("Out of index");
         }
 
         return result;
