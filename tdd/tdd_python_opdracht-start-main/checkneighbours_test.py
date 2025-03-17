@@ -1,6 +1,6 @@
 import unittest
 from checkneighbours import get_same_neighbours_ids
-
+#zelfde functies als in java bestand
 class TestCheckNeighboursInGrid(unittest.TestCase):
     def test_gegevenEnkelElement_wanneerGetNeighbours_danLegeLijst(self):
         grid = [1]
